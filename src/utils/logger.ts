@@ -1,17 +1,17 @@
 import logger from 'pino';
 import env from '../config/environment.config';
-import { appEnv } from './constants';
+import { AppEnvEnum } from '../types/enums';
 
 const log = logger({
   base: { pid: false },
   transport: {
     target: 'pino-pretty',
     options: {
-        colorized: true
+      colorized: true,
     },
   },
   timestamp: () => `,"time": "${new Date().toLocaleString()}"`,
-  level: env.environment === appEnv.prod ? 'silent' : 'info',
+  level: env.environment === AppEnvEnum.prod ? 'silent' : 'info',
 });
 
 export default log;
