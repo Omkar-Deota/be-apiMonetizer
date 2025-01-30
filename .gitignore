@@ -1,0 +1,31 @@
+# Node.js
+node_modules/
+build/
+npm-debug.log
+.env
+.env.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# MacOS files
+.DS_Store
+
+# Docker files
+docker-compose.override.yml
+
+*.lock
+
+swagger-output.json
