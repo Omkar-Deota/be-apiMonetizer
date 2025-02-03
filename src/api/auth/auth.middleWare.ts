@@ -2,10 +2,10 @@ import { NextFunction, Request, Response } from 'express';
 import { auth } from 'express-oauth2-jwt-bearer';
 import env from '../../config/environment.config';
 import log from '../../utils/logger';
-import { errorResponse } from '../../utils/apiResponse';
-import { UserRole } from '../../types/enums';
+import { errorResponse } from '../../utils/apiResponses';
+import { UserRole } from '../user/user.role';
 import userService from '../user/user.service';
-import { RequestContext } from './auth.context';
+import { RequestContext } from './requestContext';
 
 declare global {
   namespace Express {
@@ -20,7 +20,7 @@ export const auth0 = auth({
   issuerBaseURL: `https://${env.auth0.domain}/`,
   tokenSigningAlg: env.auth0.tokenSigningAlgo,
 });
-export const authMiddleware = () => {
+export const authmiddleWare = () => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       await new Promise<void>((resolve, reject) => {
@@ -142,7 +142,7 @@ export const isSelfOrAdmin = () => {
 };
 
 const verifyAuth0 = (req: Request, res: Response, next: NextFunction) => {
-  log.info(`${req.method} ${req.originalUrl}, auth0 middleware`);
+  log.info(`${req.method} ${req.originalUrl}, auth0 middleWare`);
 
   auth0(req, res, (error) => {
     if (error) {
@@ -154,7 +154,7 @@ const verifyAuth0 = (req: Request, res: Response, next: NextFunction) => {
   });
 };
 
-export const apiKeyMiddleware = () => {
+export const apiKeymiddleWare = () => {
   return async (req: Request, res: Response, next: NextFunction) => {
     log.info('API key signup');
     const AUTH_HEADER = 'SP-API-KEY';

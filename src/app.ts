@@ -1,21 +1,54 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
-import authRouter from './api/auth/auth.routes';
+
+import {
+  userRouter,
+  authRouter,
+  activityLogsRouter,
+  apiCallLogsRouter,
+} from './api';
+
+import { logApi } from './middlewares/logApi';
+import { authmiddleWare } from './api/auth/auth';
+// import SchedulerService from './services/scheduler.service';
+
 const app = express();
 
-// Middlewares
-app.use(cors());
+// Initialize the scheduler service
+// SchedulerService.getInstance();
+
+// middleWares
+app.use(
+  cors({
+    origin: ['http://localhost:5173', 'https://propstream-fe.onrender.com'],
+  }),
+);
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Routes
-app.use('/api/auth', authRouter);
+// auth Routes
+app.use('/api/auth', logApi(), authRouter);
+// User Routes
+app.use('/api/user', logApi(), authmiddleWare(), userRouter);
 
-app.get('/', (_req: Request, res: Response) =>
-  res.status(200).send("Hello Dev's"),
-);
+// //User Subscription Routes
+app.use('/api/subscription', logApi(), authmiddleWare());
 
-app.all('*', (_req: Request, res: Response) =>
-  res.status(404).send('Route does not exists'),
-);
+// // User Agreement Routes
+app.use('/api/user-agreements', logApi(), authmiddleWare());
+
+// //Api Call Logs Routes
+app.use('/api/api-call-logs', logApi(), authmiddleWare(), apiCallLogsRouter);
+
+// //Activity Logs Routes
+app.use('/api/activity-logs', logApi(), authmiddleWare(), activityLogsRouter);
+
+app.get('/', (_req: Request, res: Response) => {
+  res.status(200).send("Welcome Dev's");
+});
+
+app.all('*', (_req: Request, res: Response) => {
+  res.status(404).send('Route does not exists');
+});
 
 export default app;
