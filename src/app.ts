@@ -14,9 +14,6 @@ import { authmiddleWare } from './api/auth/auth';
 
 const app = express();
 
-// Initialize the scheduler service
-// SchedulerService.getInstance();
-
 // middleWares
 app.use(
   cors({
@@ -28,19 +25,20 @@ app.use(express.urlencoded({ extended: true }));
 
 // auth Routes
 app.use('/api/auth', logApi(), authRouter);
+
 // User Routes
 app.use('/api/user', logApi(), authmiddleWare(), userRouter);
 
-// //User Subscription Routes
+//User Subscription Routes
 app.use('/api/subscription', logApi(), authmiddleWare());
 
-// // User Agreement Routes
+// User Agreement Routes
 app.use('/api/user-agreements', logApi(), authmiddleWare());
 
-// //Api Call Logs Routes
+//Api Call Logs Routes
 app.use('/api/api-call-logs', logApi(), authmiddleWare(), apiCallLogsRouter);
 
-// //Activity Logs Routes
+//Activity Logs Routes
 app.use('/api/activity-logs', logApi(), authmiddleWare(), activityLogsRouter);
 
 app.get('/', (_req: Request, res: Response) => {
