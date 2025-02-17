@@ -17,7 +17,7 @@ declare global {
 
 export const auth0 = auth({
   audience: env.auth0.audience,
-  issuerBaseURL: `https://${env.auth0.domain}/`,
+  issuerBaseURL: `${env.auth0.domain}`,
   tokenSigningAlg: env.auth0.tokenSigningAlgo,
 });
 export const authmiddleWare = () => {

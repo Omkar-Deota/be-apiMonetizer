@@ -27,7 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/auth', logApi(), authRouter);
 
 // User Routes
-app.use('/api/user', logApi(), authmiddleWare(), userRouter);
+app.use('/api/user', logApi(), userRouter);
 
 //User Subscription Routes
 app.use('/api/subscription', logApi(), authmiddleWare());
