@@ -134,28 +134,6 @@ export const updateUserDetails = async (req: Request, res: Response) => {
   }
 };
 
-export const updateUserKycDetails = async (req: Request, res: Response) => {
-  try {
-    const userId = req.context.userId;
-    const validatedData = await userUpdateSchema.validate(req.body, {
-      abortEarly: false,
-    });
-
-    const updatedUser = await userService.updateUserKycDetails(
-      userId,
-      validatedData,
-    );
-
-    successResponse({
-      res,
-      data: updatedUser,
-      message: 'User profile updated successfully',
-    });
-  } catch (error) {
-    errorResponse({ req, res, error });
-  }
-};
-
 // export const toggleUserStatus = async (req: Request, res: Response) => {
 //     try {
 //         const { userId } = req.params;
@@ -181,44 +159,3 @@ export const updateUserKycDetails = async (req: Request, res: Response) => {
 //         errorResponse({ req, res, error });
 //     }
 // };
-
-export const getUsersWithPayments = async (req: Request, res: Response) => {
-  try {
-    const { page = '', limit = '' } = req.query;
-    const pageInt = page ? parseInt(page as string) : 1;
-    const limitInt = limit ? parseInt(limit as string) : 10;
-
-    const result = await userService.getUsersWithPayments(pageInt, limitInt);
-
-    successResponse({
-      res,
-      data: result.data,
-      message: 'Successfully fetched users with payments',
-      totalPages: result.totalPages,
-      count: result.count,
-      hasMore: result.hasMore,
-    });
-  } catch (error) {
-    errorResponse({ req, res, error });
-  }
-};
-
-export const approveUserPayment = async (req: Request, res: Response) => {
-  try {
-    const { userId } = req.params;
-
-    if (!userId) {
-      throw new Error('User ID is required');
-    }
-
-    const result = await userService.approveUserPayment(userId);
-
-    successResponse({
-      res,
-      data: result,
-      message: 'Successfully approved user payment',
-    });
-  } catch (error) {
-    errorResponse({ req, res, error });
-  }
-};

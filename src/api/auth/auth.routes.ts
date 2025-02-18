@@ -1,9 +1,9 @@
 import express from 'express';
 import { saveUser } from '../user/user.controller';
-import { authmiddleWare } from './auth.middleWare';
+import { apiKeymiddleWare } from './auth.middleWare';
 // Base Route:- /api/auth
 const authRouter = express.Router();
 
-authRouter.post('/login', authmiddleWare(), saveUser);
+authRouter.post('/login', apiKeymiddleWare(), saveUser);
 
 export default authRouter;
